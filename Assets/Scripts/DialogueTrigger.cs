@@ -37,6 +37,7 @@ public class DialogueTrigger : MonoBehaviour
         if(playerDetected && Input.GetKeyDown(interactKey))
         {
             dialogueScript.StartDialogue();
+            playerDetected = false;
         }
     }
 }

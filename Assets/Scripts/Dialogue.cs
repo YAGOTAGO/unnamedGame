@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 public class Dialogue : MonoBehaviour
 {
+
     //Trigger Key
     [SerializeField] private KeyCode interactKey = KeyCode.Mouse0;
 
@@ -45,6 +46,7 @@ public class Dialogue : MonoBehaviour
         window.SetActive(show);
     }
 
+    //removed indicator
     public void ToggleIndicator (bool show)
     {
         //indicator.SetActive(show);
@@ -85,6 +87,7 @@ public class Dialogue : MonoBehaviour
         StopAllCoroutines();
         //Hide the Window
         ToggleWindow(false);
+        
         
     }
    
