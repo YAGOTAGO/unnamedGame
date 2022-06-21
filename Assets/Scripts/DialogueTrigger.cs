@@ -6,6 +6,7 @@ public class DialogueTrigger : MonoBehaviour
 {
     private bool playerDetected;
     public Dialogue dialogueScript;
+    [SerializeField] private KeyCode interactKey = KeyCode.Mouse0;
 
     //Detect trigger with player
     private void OnTriggerEnter2D(Collider2D collision)
@@ -14,7 +15,7 @@ public class DialogueTrigger : MonoBehaviour
         if(collision.CompareTag("Player"))
         {
             playerDetected = true;
-            dialogueScript.ToggleIndicator(playerDetected);
+            //dialogueScript.ToggleIndicator(playerDetected);
         }
 
     }
@@ -25,7 +26,7 @@ public class DialogueTrigger : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             playerDetected = false;
-            dialogueScript.ToggleIndicator(playerDetected);
+            //dialogueScript.ToggleIndicator(playerDetected);
             dialogueScript.EndDialogue();   
         }
     }
@@ -33,7 +34,7 @@ public class DialogueTrigger : MonoBehaviour
     //while detected if we interact start dialogue
     private void Update()
     {
-        if(playerDetected && Input.GetKeyDown(KeyCode.E))
+        if(playerDetected && Input.GetKeyDown(interactKey))
         {
             dialogueScript.StartDialogue();
         }

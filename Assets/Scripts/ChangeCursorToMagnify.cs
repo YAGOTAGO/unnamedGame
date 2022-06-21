@@ -38,6 +38,7 @@ public class ChangeCursorToMagnify : MonoBehaviour
         if (playerDetected)
         {
             Cursor.SetCursor(cursorTexture, hotSpot, cursorMode);
+           
         }else if (!playerDetected)
         {
             Cursor.SetCursor(null, Vector2.zero, cursorMode);

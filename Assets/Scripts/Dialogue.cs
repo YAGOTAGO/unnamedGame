@@ -4,11 +4,15 @@ using UnityEngine;
 using TMPro;
 public class Dialogue : MonoBehaviour
 {
+    //Trigger Key
+    [SerializeField] private KeyCode interactKey = KeyCode.Mouse0;
+
     //Window
     public GameObject window;
 
     //Indicator
-    public GameObject indicator;
+    //public GameObject indicator;
+
     //Dialogue list
     public List<string> dialogues;
 
@@ -32,7 +36,7 @@ public class Dialogue : MonoBehaviour
 
     private void Awake()
     {
-        ToggleIndicator(false);
+        //ToggleIndicator(false);
         ToggleWindow(false);
     }
 
@@ -43,7 +47,7 @@ public class Dialogue : MonoBehaviour
 
     public void ToggleIndicator (bool show)
     {
-        indicator.SetActive(show);
+        //indicator.SetActive(show);
     }
 
     //Start Dialogue
@@ -57,7 +61,7 @@ public class Dialogue : MonoBehaviour
         //show the window
         ToggleWindow(true);
         //hide the indicator
-        ToggleIndicator(false);
+        //ToggleIndicator(false);
 
         GetDialogue(0);
 
@@ -118,7 +122,7 @@ public class Dialogue : MonoBehaviour
         if (!started)
             return;
 
-        if(waitForNext && Input.GetKeyDown(KeyCode.E))
+        if(waitForNext && Input.GetKeyDown(interactKey))
         {
 
             waitForNext=false;
