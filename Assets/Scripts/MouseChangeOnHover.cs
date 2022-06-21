@@ -2,27 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LockedDoor : MonoBehaviour
+public class MouseChangeOnHover : MonoBehaviour
 {
-    private bool playerDetected;
-    [SerializeField] private GameObject exclamation;
+    [SerializeField] private bool playerDetected;
     [SerializeField] private Texture2D cursorTexture;
     [SerializeField] private CursorMode cursorMode = CursorMode.Auto;
     [SerializeField] private Vector2 hotSpot = Vector2.zero;
-    //sets the key for interaction
-    private KeyCode interactKey = KeyCode.Mouse0;
 
 
-    private void Awake()
-    {
-        exclamation.SetActive(false);
-    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        
+
         if (collision.CompareTag("Player"))
         {
-            exclamation.SetActive(true);
             playerDetected = true;
         }
     }
@@ -32,20 +24,13 @@ public class LockedDoor : MonoBehaviour
 
         if (collision.CompareTag("Player"))
         {
-            exclamation.SetActive(false);
             playerDetected = false;
         }
     }
 
     private void OnMouseOver()
     {
-        //if mouse over and click do something
-        if (playerDetected && Input.GetKeyDown(interactKey))
-        {
-            Debug.Log("Door was clicked");
-        }
-
-        //if mouse over change mouse texture
+        
         if (playerDetected)
         {
             Cursor.SetCursor(cursorTexture, hotSpot, cursorMode);
@@ -61,4 +46,5 @@ public class LockedDoor : MonoBehaviour
     {
         Cursor.SetCursor(null, Vector2.zero, cursorMode);
     }
+
 }

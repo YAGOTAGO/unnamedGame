@@ -2,63 +2,52 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LockedDoor : MonoBehaviour
+public class ChangeCursorToMagnify : MonoBehaviour
 {
-    private bool playerDetected;
-    [SerializeField] private GameObject exclamation;
     [SerializeField] private Texture2D cursorTexture;
     [SerializeField] private CursorMode cursorMode = CursorMode.Auto;
     [SerializeField] private Vector2 hotSpot = Vector2.zero;
-    //sets the key for interaction
-    private KeyCode interactKey = KeyCode.Mouse0;
+    private bool playerDetected = false;
 
+    /**
+     * Purpose is to change the mouse look when an object can be clicked
+     * The onTriggered are to check if player is in correct area
+     * The on hover is to check that mouse is in correct area
+     */
 
-    private void Awake()
-    {
-        exclamation.SetActive(false);
-    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        
+
         if (collision.CompareTag("Player"))
         {
-            exclamation.SetActive(true);
             playerDetected = true;
         }
     }
-
     private void OnTriggerExit2D(Collider2D collision)
     {
 
         if (collision.CompareTag("Player"))
         {
-            exclamation.SetActive(false);
             playerDetected = false;
         }
     }
 
-    private void OnMouseOver()
+    void OnMouseOver()
     {
-        //if mouse over and click do something
-        if (playerDetected && Input.GetKeyDown(interactKey))
-        {
-            Debug.Log("Door was clicked");
-        }
-
-        //if mouse over change mouse texture
+        
         if (playerDetected)
         {
             Cursor.SetCursor(cursorTexture, hotSpot, cursorMode);
-        }
-        else if (!playerDetected)
+        }else if (!playerDetected)
         {
             Cursor.SetCursor(null, Vector2.zero, cursorMode);
         }
-
+            
     }
 
-    private void OnMouseExit()
+    void OnMouseExit()
     {
         Cursor.SetCursor(null, Vector2.zero, cursorMode);
     }
+
 }

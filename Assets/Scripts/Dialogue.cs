@@ -120,7 +120,6 @@ public class Dialogue : MonoBehaviour
 
         if(waitForNext && Input.GetKeyDown(KeyCode.E))
         {
-            Debug.Log("Hello");
 
             waitForNext=false;
             index++;
