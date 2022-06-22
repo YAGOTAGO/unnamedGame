@@ -21,10 +21,10 @@ public class CameraController : MonoBehaviour
 
         if (sceneName == "Train")
         {
-            leftLimit = -3.1f;
-            rightLimit = 6.74f;
+            leftLimit = -16.49f;
+            rightLimit = -6.75f;
             topLimit = 5;
-            bottomLimit = 1.18f;
+            bottomLimit = -8.93f;
         }
     }
     private void LateUpdate()
