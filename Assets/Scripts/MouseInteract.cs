@@ -29,6 +29,7 @@ public class MouseInteract : MonoBehaviour
 
         if (collision.CompareTag("Player"))
         {
+            dialogueScript.EndDialogue();
             playerDetected = false;
         }
     }

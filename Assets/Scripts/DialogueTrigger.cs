@@ -25,6 +25,7 @@ public class DialogueTrigger : MonoBehaviour
         
         if (collision.CompareTag("Player"))
         {
+            //Debug.Log("Exited");
             playerDetected = false;
             //dialogueScript.ToggleIndicator(playerDetected);
             dialogueScript.EndDialogue();   
