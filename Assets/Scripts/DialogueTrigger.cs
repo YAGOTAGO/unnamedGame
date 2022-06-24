@@ -32,8 +32,9 @@ public class DialogueTrigger : MonoBehaviour
     }
 
     //while detected if we interact start dialogue
-    private void Update()
+    void OnMouseOver()
     {
+        //Think about adding change of cursor here
         if(playerDetected && Input.GetKeyDown(interactKey))
         {
             dialogueScript.StartDialogue();

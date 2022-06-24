@@ -635,7 +635,7 @@ PlayerSettings:
   XboxOneOverrideIdentityPublisher: 
   vrEditorSettings: {}
   cloudServicesEnabled:
-    Build: 0
+    Build: 1
     Collab: 0
     Game Performance: 0
     Legacy Analytics: 0
@@ -655,11 +655,11 @@ PlayerSettings:
     m_VersionName: 
   apiCompatibilityLevel: 6
   activeInputHandler: 0
-  cloudProjectId: c25a3436-f423-48b3-a9c5-106ef26975d4
+  cloudProjectId: 9ee624bf-96ee-4459-bf9e-7c4e91134b81
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
   projectName: TicketMaster
-  organizationId: tdavies5
+  organizationId: tiagocaetanodavies
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   virtualTexturingSupportEnabled: 0
