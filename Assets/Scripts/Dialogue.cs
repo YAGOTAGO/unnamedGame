@@ -18,7 +18,7 @@ public class Dialogue : MonoBehaviour
     public List<string> dialogues;
 
     //Writing speed
-    public float writingSpeed;
+    public float writingSpeed = .02f;
     
     //Index on dialogue
     private int index;
@@ -74,8 +74,10 @@ public class Dialogue : MonoBehaviour
         //start index at zero
         index = i;
         charIndex = 0;
-        //clear the dialogye component text
+
+        //clear the dialogue component text
         DialogueText.text = string.Empty;
+
         //start writing
         StartCoroutine(Writing());
     }
@@ -85,6 +87,7 @@ public class Dialogue : MonoBehaviour
         started = false;
         waitForNext = false;
         StopAllCoroutines();
+
         //Hide the Window
         ToggleWindow(false);
         

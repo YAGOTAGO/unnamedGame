@@ -2,19 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChangeCursorToMagnify : MonoBehaviour
+public class MouseInteract : MonoBehaviour
 {
+    [SerializeField] private bool playerDetected;
     [SerializeField] private Texture2D cursorTexture;
     [SerializeField] private CursorMode cursorMode = CursorMode.Auto;
     [SerializeField] private Vector2 hotSpot = Vector2.zero;
-    private bool playerDetected = false;
+    public Dialogue dialogueScript;
+    private KeyCode interactKey = KeyCode.Mouse0;
+
 
     /**
-     * Purpose is to change the mouse look when an object can be clicked
-     * The onTriggered are to check if player is in correct area
-     * The on hover is to check that mouse is in correct area
+     * If wanna make it so when click outside dialogue doesnt trigger, look into adding a bool that is set on mouse enter and exit
      */
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
@@ -23,6 +23,7 @@ public class ChangeCursorToMagnify : MonoBehaviour
             playerDetected = true;
         }
     }
+
     private void OnTriggerExit2D(Collider2D collision)
     {
 
@@ -32,21 +33,26 @@ public class ChangeCursorToMagnify : MonoBehaviour
         }
     }
 
-    void OnMouseOver()
+    private void OnMouseOver()
     {
         
         if (playerDetected)
         {
             Cursor.SetCursor(cursorTexture, hotSpot, cursorMode);
-           
-        }else if (!playerDetected)
+
+            if (Input.GetKeyDown(interactKey)){
+                dialogueScript.StartDialogue();
+                //playerDetected = false;
+            }
+        }
+        else if (!playerDetected)
         {
             Cursor.SetCursor(null, Vector2.zero, cursorMode);
         }
-            
+
     }
 
-    void OnMouseExit()
+    private void OnMouseExit()
     {
         Cursor.SetCursor(null, Vector2.zero, cursorMode);
     }
