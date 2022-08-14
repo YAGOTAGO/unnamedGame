@@ -18,7 +18,7 @@ public class Dialogue : MonoBehaviour
     public List<string> dialogues;
 
     //Writing speed
-    public float writingSpeed = 0f;
+    public float writingSpeed = 0.01f;
     
     //Index on dialogue
     private int index;
