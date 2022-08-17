@@ -5,7 +5,7 @@ using UnityEngine;
 public class Draw : MonoBehaviour
 {
 
-
+    //Material is required to change line color
     public Material lineMaterial;
     [SerializeField]
     private float lineSeperationDistance = .2f;
@@ -18,9 +18,17 @@ public class Draw : MonoBehaviour
     [SerializeField]
     LayerMask lineLayer;
 
+    #region Cursor
+    [SerializeField] private Texture2D cursorErase;
+    [SerializeField] private Texture2D cursorDraw;
+    [SerializeField] private Texture2D cursorDefault;
+    private CursorMode cursorMode = CursorMode.Auto;
+     private Vector2 hotSpot = Vector2.zero;
+    #endregion
+
     #region Private
     //line layer needs to match layer number
-    private List<GameObject> lines;
+    //private List<GameObject> lines;
     private List<Vector2> currentLine;
     private LineRenderer currentLineRenderer;
     private EdgeCollider2D currentLineEdgeCollider;
@@ -46,11 +54,19 @@ public class Draw : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             if (!erasing)
-                StartCoroutine("Drawing");
+            {
+                Cursor.SetCursor(cursorDraw, hotSpot, cursorMode);
+                StartCoroutine(Drawing());
+            }
+                
             Debug.Log("left click");
         }
         if (Input.GetMouseButtonUp(0))
         {
+            if (!erasing)
+            {
+                Cursor.SetCursor(cursorDefault, hotSpot, cursorMode);
+            }
             drawing = false;
             Debug.Log("left click up");
         }
@@ -58,10 +74,18 @@ public class Draw : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             if (!drawing)
-                StartCoroutine("Erasing");
+            {
+                Cursor.SetCursor(cursorErase, hotSpot, cursorMode);
+                StartCoroutine(Erasing());
+            }
+                
         }
         if (Input.GetMouseButtonUp(1))
         {
+            if (!drawing)
+            {
+                Cursor.SetCursor(cursorDefault, hotSpot, cursorMode);
+            }
             erasing = false;
         }
 
@@ -86,7 +110,7 @@ public class Draw : MonoBehaviour
         currentLine = new List<Vector2>();
         GameObject currentLineObject = new GameObject();
         currentLineObject.name = "Line";
-        currentLineObject.transform.parent = transform;
+        currentLineObject.transform.SetParent(transform);
         currentLineRenderer = currentLineObject.AddComponent<LineRenderer>();
         currentLineEdgeCollider = currentLineObject.AddComponent<EdgeCollider2D>();
 
@@ -130,7 +154,8 @@ public class Draw : MonoBehaviour
 
     private void EndLine()
     {
-        currentLineEdgeCollider.SetPoints(currentLine);
+        if(currentLineEdgeCollider != null)
+            currentLineEdgeCollider.SetPoints(currentLine);
     }
 
 
@@ -155,5 +180,16 @@ public class Draw : MonoBehaviour
     private Vector2 GetCurrentScreenPoint()
     {
         return Input.mousePosition;
+    }
+
+    public void ClearAllLines()
+    {
+        if(transform.childCount > 0)
+        {
+            foreach (Transform child in transform)
+                GameObject.Destroy(child.gameObject);
+            
+        }
+       
     }
 }
