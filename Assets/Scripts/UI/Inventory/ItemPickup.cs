@@ -3,23 +3,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UIElements;
+using Cursor = UnityEngine.Cursor;
 
 [RequireComponent(typeof(DragAndDrop))]
+
+
 public class ItemPickup : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+
+    #region CursorSettings
     [SerializeField] private Texture2D cursorHover;
     [SerializeField] private Texture2D cursorDefault;
-    [SerializeField] private bool playerDetected = false;
     private readonly CursorMode cursorMode = CursorMode.Auto;
     private Vector2 hotSpot = Vector2.zero;
+    #endregion
+
+    [SerializeField] private bool playerDetected = false;
     private readonly KeyCode interactKey = KeyCode.Mouse0;
     private readonly string playerTag = "Player";
-    [SerializeField] private Inventory inventory;
+    private Inventory inventory;
     private bool mouseOver = false;
+    //private Animator animator;
+    private string inventoryName = "Inventory";
 
     private void Awake()
     {
-        inventory = GameObject.Find("Inventory").GetComponent<Inventory>();
+        inventory = GameObject.Find(inventoryName).GetComponent<Inventory>();
+        //animator = gameObject.GetComponent<Animator>();
+        //animator.enabled = false;
     }
 
     private void Update()
@@ -27,8 +39,11 @@ public class ItemPickup : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         if (mouseOver){
             if (Input.GetKeyDown(interactKey))
             {
-                Debug.Log("clicked");
+
+                
                 //set off an animation
+                //animator.enabled = true;
+                
 
                 //enable drag script
                 GetComponent<DragAndDrop>().enabled = true;
@@ -41,6 +56,8 @@ public class ItemPickup : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             }
         }
     }
+
+   
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -61,7 +78,7 @@ public class ItemPickup : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         if (playerDetected)
         {
-            Debug.Log("Hovered");
+            
             Cursor.SetCursor(cursorHover, hotSpot, cursorMode);
             mouseOver = true;
         }

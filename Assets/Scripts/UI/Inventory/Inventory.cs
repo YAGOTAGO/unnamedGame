@@ -14,7 +14,7 @@ public class Inventory : MonoBehaviour
     {
         //initializes with right number of slots
         inventoryArr = new GameObject[numOfSlots];
-        for(int i=0; i< transform.childCount; i++)
+        for(int i=0; i< numOfSlots; i++)
         {
             inventoryArr[i] = gameObject.transform.GetChild(i).gameObject;
         }
@@ -32,8 +32,13 @@ public class Inventory : MonoBehaviour
             {
                 g.transform.SetParent(inventoryArr[i].transform);
                 g.transform.position  = inventoryArr[i].transform.position;
-                Debug.Log("Object " + g + "added to " + inventoryArr[i]);
+
+                //Debug.Log("Object " + g + "added to " + inventoryArr[i]);
                 return;
+            }
+            else if(i == numOfSlots-1)
+            {
+                Debug.LogError("Inventory full, no slots available");
             }
         }
     }
