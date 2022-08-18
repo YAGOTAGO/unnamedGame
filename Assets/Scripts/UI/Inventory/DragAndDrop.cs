@@ -100,9 +100,9 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
         {
             foreach (Collider2D hit in hitColliders)
             {
-                
+                Debug.Log(hit);
                 //If slot is hit and open
-                if (hit.gameObject.CompareTag(slotTag) && hit.gameObject.transform.childCount<1)
+                if (hit.gameObject.CompareTag(slotTag) && hit.gameObject.transform.childCount == 0)
                 {
                     //Sets image back to icon
                     itemImage.sprite = item.GetIcon();

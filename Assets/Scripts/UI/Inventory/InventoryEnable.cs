@@ -10,6 +10,8 @@ public class InventoryEnable : MonoBehaviour
     private int speed = 150;
     private bool inventoryUp = false;
     private bool buttonClicked= false;
+    [SerializeField] private int topBound;
+    [SerializeField] private int botBound;
 
 
     //NOTE: values of how high or low inventory goes are hard coded!!! this will give potential errors in future
@@ -23,9 +25,10 @@ public class InventoryEnable : MonoBehaviour
             {
                 transform.Translate(speed * Time.deltaTime * Vector2.up);
 
-                //4 is hard coded
-                if (transform.position.y > 4)
+                //yBound is hard coded
+                if (transform.localPosition.y > topBound)
                 {
+                    
                     inventoryUp = true;
                     buttonClicked = false;
                 }
@@ -35,8 +38,8 @@ public class InventoryEnable : MonoBehaviour
             {
                 transform.Translate(speed * Time.deltaTime * Vector2.down);
 
-                //-70 is hard coded
-                if (transform.position.y < -95)
+                //xBound is hard coded
+                if (transform.localPosition.y < botBound)
                 {
                     buttonClicked = false;
                     inventoryUp = false;
