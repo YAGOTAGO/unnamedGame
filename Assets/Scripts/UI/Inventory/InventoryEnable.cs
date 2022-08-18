@@ -5,10 +5,7 @@ using UnityEngine;
 public class InventoryEnable : MonoBehaviour
 {
 
-    //This should reference itself
-    [SerializeField]
-    private GameObject inventoryUI;
-
+    
     [SerializeField]
     private int speed = 150;
     private bool inventoryUp = false;
@@ -17,18 +14,6 @@ public class InventoryEnable : MonoBehaviour
 
     //NOTE: values of how high or low inventory goes are hard coded!!! this will give potential errors in future
 
-    public void ShowAndHide()
-    {
-        if (inventoryUI.activeSelf)
-        {
-            inventoryUI.SetActive(false);
-        }else if (!inventoryUI.activeSelf)
-        {
-            inventoryUI.SetActive(true);
-           
-        }
-
-    }
 
     private void Update()
     {
@@ -51,7 +36,7 @@ public class InventoryEnable : MonoBehaviour
                 transform.Translate(speed * Time.deltaTime * Vector2.down);
 
                 //-70 is hard coded
-                if (transform.position.y < -70)
+                if (transform.position.y < -95)
                 {
                     buttonClicked = false;
                     inventoryUp = false;

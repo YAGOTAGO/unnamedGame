@@ -7,9 +7,10 @@ public class ItemSlot : MonoBehaviour, IDropHandler
     {
        if(eventData.pointerDrag != null)
         {
-           
-            eventData.pointerDrag.transform.SetParent(transform);
-            eventData.pointerDrag.GetComponent<RectTransform>().position = GetComponent<RectTransform>().position;
+            
+
+            //eventData.pointerDrag.transform.SetParent(transform);
+            //eventData.pointerDrag.GetComponent<RectTransform>().position = GetComponent<RectTransform>().position;
         }
     }
 }

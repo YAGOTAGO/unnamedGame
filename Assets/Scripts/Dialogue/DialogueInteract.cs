@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MouseInteract : MonoBehaviour
+public class DialogueInteract : MonoBehaviour
 {
-    [SerializeField] private bool playerDetected;
-    [SerializeField] private Texture2D cursorTexture;
-    [SerializeField] private CursorMode cursorMode = CursorMode.Auto;
-    [SerializeField] private Vector2 hotSpot = Vector2.zero;
+    private bool playerDetected;
+    [SerializeField] private Texture2D cursorHover;
+    private readonly CursorMode cursorMode = CursorMode.Auto;
+    private Vector2 hotSpot = Vector2.zero;
     public Dialogue dialogueScript;
-    private KeyCode interactKey = KeyCode.Mouse0;
+    private readonly KeyCode interactKey = KeyCode.Mouse0;
 
 
     /**
@@ -39,7 +39,7 @@ public class MouseInteract : MonoBehaviour
         
         if (playerDetected)
         {
-            Cursor.SetCursor(cursorTexture, hotSpot, cursorMode);
+            Cursor.SetCursor(cursorHover, hotSpot, cursorMode);
 
             if (Input.GetKeyDown(interactKey)){
                 dialogueScript.StartDialogue();
