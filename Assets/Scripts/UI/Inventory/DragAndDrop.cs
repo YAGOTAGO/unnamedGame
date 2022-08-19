@@ -101,7 +101,7 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
     public void OnEndDrag(PointerEventData eventData)
     {
         //Sets default cursor
-        Cursor.SetCursor(defaultCursor, Vector2.zero, CursorMode.Auto);
+        SetCursorToDefault();
 
         //Canvas settings needed for dragging
         canvasGroup.alpha = 1;
@@ -176,4 +176,8 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
         Gizmos.DrawWireSphere(transform.position, range);
     }
   
+    private void SetCursorToDefault()
+    {
+        Cursor.SetCursor(defaultCursor, Vector2.zero, CursorMode.Auto);
+    }
 }

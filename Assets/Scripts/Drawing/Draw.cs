@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Draw : MonoBehaviour
 {
-
+    #region LineSettings
     //Material is required to change line color
     public Material lineMaterial;
     [SerializeField]
@@ -17,6 +17,7 @@ public class Draw : MonoBehaviour
     private int lineCapVertices = 5;
     [SerializeField]
     LayerMask lineLayer;
+    #endregion
 
     #region Cursor
     [SerializeField] private Texture2D cursorErase;
@@ -40,6 +41,7 @@ public class Draw : MonoBehaviour
 
     #endregion
 
+    private bool canDraw = false;
 
     // Start is called before the first frame update
     void Start()
@@ -47,47 +49,68 @@ public class Draw : MonoBehaviour
         mainCamera = Camera.main;
     }
 
+    public void activateDraw()
+    {
+        if (canDraw)
+        {
+            SetCursorToDefault();
+            drawing = false;
+            canDraw = false;
+            
+            return;
+        }
+        if(!canDraw)
+        {
+            canDraw = true;
+            return;
+        }
+    }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (!erasing)
+        if (!canDraw)
+            return;
+        
+            if (Input.GetMouseButtonDown(0))
             {
-                Cursor.SetCursor(cursorDraw, hotSpot, cursorMode);
-                StartCoroutine(Drawing());
-            }
-                
-            Debug.Log("left click");
-        }
-        if (Input.GetMouseButtonUp(0))
-        {
-            if (!erasing)
-            {
-                Cursor.SetCursor(cursorDefault, hotSpot, cursorMode);
-            }
-            drawing = false;
-            Debug.Log("left click up");
-        }
+                if (!erasing)
+                {
+                    Cursor.SetCursor(cursorDraw, hotSpot, cursorMode);
+                    StartCoroutine(Drawing());
+                }
 
-        if (Input.GetMouseButtonDown(1))
-        {
-            if (!drawing)
-            {
-                Cursor.SetCursor(cursorErase, hotSpot, cursorMode);
-                StartCoroutine(Erasing());
+                Debug.Log("left click");
             }
-                
-        }
-        if (Input.GetMouseButtonUp(1))
-        {
-            if (!drawing)
+            if (Input.GetMouseButtonUp(0))
             {
-                Cursor.SetCursor(cursorDefault, hotSpot, cursorMode);
+                if (!erasing)
+                {
+                SetCursorToDefault();
+                }
+                drawing = false;
+                Debug.Log("left click up");
             }
-            erasing = false;
-        }
+
+            if (Input.GetMouseButtonDown(1))
+            {
+                if (!drawing)
+                {
+                    Cursor.SetCursor(cursorErase, hotSpot, cursorMode);
+                    StartCoroutine(Erasing());
+                }
+
+            }
+            if (Input.GetMouseButtonUp(1))
+            {
+                if (!drawing)
+                {
+                SetCursorToDefault();
+            }
+                erasing = false;
+            }
+        
+        
 
 
     }
@@ -191,5 +214,10 @@ public class Draw : MonoBehaviour
             
         }
        
+    }
+
+    private void SetCursorToDefault()
+    {
+        Cursor.SetCursor(cursorDefault, Vector2.zero, CursorMode.Auto);
     }
 }
