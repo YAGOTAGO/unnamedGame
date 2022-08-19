@@ -642,8 +642,9 @@ GameObject:
   - component: {fileID: 398503784}
   - component: {fileID: 398503783}
   - component: {fileID: 398503782}
+  - component: {fileID: 398503788}
   m_Layer: 5
-  m_Name: MapItem (1)
+  m_Name: EclamationItem
   m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -665,7 +666,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 179, y: -139.93}
+  m_AnchoredPosition: {x: 182, y: -148}
   m_SizeDelta: {x: 133.843, y: 122.36}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &398503782
@@ -740,8 +741,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grabCursor: {fileID: 2800000, guid: 20f8a9360d1667148a2a5511cd54ba08, type: 3}
   defaultCursor: {fileID: 2800000, guid: b9136b5d06f166440918e4643db99808, type: 3}
-  iconWidth: 93
-  iconHeight: 85
+  iconWidth: 133.843
+  iconHeight: 122.36
   range: 38
   canvas: {fileID: 16150383}
 --- !u!222 &398503786
@@ -767,6 +768,31 @@ MonoBehaviour:
   cursorHover: {fileID: 2800000, guid: 6e9464181c1dbc84db311f1be77bd00c, type: 3}
   cursorDefault: {fileID: 2800000, guid: b9136b5d06f166440918e4643db99808, type: 3}
   playerDetected: 1
+  mapPath: ExclamationPath
+  pathTime: 1
+  easeType: 23
+--- !u!114 &398503788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 398503780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01bffa8aa898b437183cd5617f7b5303, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pathName: ExclamationPath
+  pathColor: {r: 0, g: 1, b: 1, a: 1}
+  nodes:
+  - {x: 535.49414, y: 166.63979, z: 0}
+  - {x: 248.08727, y: 261.1938, z: 0}
+  - {x: 49.617447, y: 34.63861, z: 0}
+  nodeCount: 3
+  initialized: 1
+  initialName: New Path 1
+  pathVisible: 1
 --- !u!1 &567943243
 GameObject:
   m_ObjectHideFlags: 0
@@ -1617,9 +1643,9 @@ GameObject:
   - component: {fileID: 2081079233}
   - component: {fileID: 2081079236}
   - component: {fileID: 2081079238}
+  - component: {fileID: 2081079239}
   - component: {fileID: 2081079235}
   - component: {fileID: 2081079234}
-  - component: {fileID: 2081079239}
   m_Layer: 5
   m_Name: MapItem
   m_TagString: Item
@@ -1643,7 +1669,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -381.1076, y: -139.9269}
+  m_AnchoredPosition: {x: -268, y: -35.865}
   m_SizeDelta: {x: 93.8147, y: 85.7692}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2081079233
@@ -1661,6 +1687,9 @@ MonoBehaviour:
   cursorHover: {fileID: 2800000, guid: 6e9464181c1dbc84db311f1be77bd00c, type: 3}
   cursorDefault: {fileID: 2800000, guid: b9136b5d06f166440918e4643db99808, type: 3}
   playerDetected: 1
+  mapPath: MapPath
+  pathTime: 1
+  easeType: 23
 --- !u!114 &2081079234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1745,22 +1774,25 @@ MonoBehaviour:
   fullItem: {fileID: 21300000, guid: fdeb9d9a5e24f4440a946e722f5f8205, type: 3}
   widthOfFull: 250
   heightOfFull: 200
---- !u!95 &2081079239
-Animator:
-  serializedVersion: 3
+--- !u!114 &2081079239
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2081079231}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 916661e12227c564a9e836eb3dfcc654, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01bffa8aa898b437183cd5617f7b5303, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pathName: MapPath
+  pathColor: {r: 1, g: 0, b: 0.2432208, a: 1}
+  nodes:
+  - {x: 289.95535, y: 223.73013, z: 0}
+  - {x: 189.90529, y: 260.65643, z: 0}
+  - {x: 57.32054, y: 39.046783, z: 0}
+  nodeCount: 3
+  initialized: 1
+  initialName: New Path 1
+  pathVisible: 1

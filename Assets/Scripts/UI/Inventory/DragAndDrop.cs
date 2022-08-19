@@ -24,9 +24,9 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
     private Image itemImage;
 
     [SerializeField]
-    private int iconWidth = 93;
+    private float iconWidth = 93;
     [SerializeField]
-    private int iconHeight = 85;
+    private float iconHeight = 85;
     #endregion
 
     #region Prior Values

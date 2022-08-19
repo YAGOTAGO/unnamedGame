@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 using Cursor = UnityEngine.Cursor;
 
 [RequireComponent(typeof(DragAndDrop))]
-
+[RequireComponent(typeof(iTweenPath))]
 
 public class ItemPickup : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
@@ -24,14 +24,14 @@ public class ItemPickup : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private readonly string playerTag = "Player";
     private Inventory inventory;
     private bool mouseOver = false;
-    //private Animator animator;
-    private string inventoryName = "Inventory";
-
+    private readonly string inventoryName = "Inventory";
+    [SerializeField] private string mapPath;
+    [SerializeField] private float pathTime;
+    [SerializeField] private iTween.EaseType easeType;
     private void Awake()
     {
         inventory = GameObject.Find(inventoryName).GetComponent<Inventory>();
-        //animator = gameObject.GetComponent<Animator>();
-        //animator.enabled = false;
+        
     }
 
     private void Update()
@@ -39,25 +39,25 @@ public class ItemPickup : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         if (mouseOver){
             if (Input.GetKeyDown(interactKey))
             {
-
-                
                 //set off an animation
-                //animator.enabled = true;
-                
-
-                //enable drag script
-                GetComponent<DragAndDrop>().enabled = true;
-
-                // transform item position to an empty slot
-                inventory.AddItem(gameObject);
-
-                //disable this script
-                this.enabled = false;
+                iTween.MoveTo(gameObject, iTween.Hash("path", iTweenPath.GetPath(mapPath), "time", pathTime, "easetype", easeType, "oncomplete", "addIntoInventory"));
+ 
             }
         }
     }
 
-   
+    //This is called right after iTween
+    private void addIntoInventory()
+    {
+        //enable drag script
+        GetComponent<DragAndDrop>().enabled = true;
+
+        // transform item position to an empty slot
+        inventory.AddItem(gameObject);
+
+        //disable this script
+        this.enabled = false;
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -78,7 +78,6 @@ public class ItemPickup : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         if (playerDetected)
         {
-            
             Cursor.SetCursor(cursorHover, hotSpot, cursorMode);
             mouseOver = true;
         }
