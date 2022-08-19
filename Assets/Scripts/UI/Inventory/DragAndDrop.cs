@@ -29,18 +29,23 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
     private int iconHeight = 85;
     #endregion
 
-    
+    #region Prior Values
+    private Sprite previousSprite;
+    private Transform priorParent;
+    private Vector2 priorSize;
+    private Vector2 startPosition;
+    #endregion
+
     //Range of circle2D collider
     [SerializeField] private int range = 26;
     private RectTransform rectTransform;
     private CanvasGroup canvasGroup;
+
+    //maybe set this value in code
     [SerializeField] private Canvas canvas;
-    private Vector2 startPosition;
     private Transform workspaceTransform;
-    private Sprite previousSprite;
-    private bool inSlot = false;
-    private Transform priorParent;
     
+   
 
     private void Awake()
     {
@@ -58,10 +63,13 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
     {
 
         //Hold previous parent
-        priorParent = GetComponentInParent<Transform>();
+        priorParent = transform.parent;
         
         //Hold preious sprite
         previousSprite = GetComponent<Image>().sprite;
+
+        //Holds previous size
+        priorSize = new Vector2(transform.GetComponent<RectTransform>().sizeDelta.x, transform.GetComponent<RectTransform>().sizeDelta.y);
 
         //set image to icon
         itemImage.sprite = item.GetIcon();
@@ -79,9 +87,8 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
         canvasGroup.alpha = .6f;
         canvasGroup.blocksRaycasts = false;
 
-        //Setting the parent to canvas so won't move with inventory gameObject
-        if(!inSlot)
-            transform.SetParent(canvas.transform);
+        //Makes so draggable shows over the inventory
+        transform.SetParent(canvas.transform);
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -107,7 +114,7 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
         {
             foreach (Collider2D hit in hitColliders)
             {
-                Debug.Log(hit);
+                
                 //If slot is hit and open
                 if (hit.gameObject.CompareTag(slotTag) && hit.gameObject.transform.childCount == 0)
                 {
@@ -118,7 +125,6 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
                     transform.SetParent(hit.gameObject.transform);
                     transform.position = hit.transform.position;
 
-                    inSlot = true;
                     return;
                 }
 
@@ -137,7 +143,7 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
                     //make workspace the parent
                     transform.SetParent(workspaceTransform);
 
-                    inSlot = false;
+                
                     return;
                 }
             }
@@ -145,6 +151,9 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
                 //If dragged to non acceptable region set sprite and position to the prior
                 itemImage.sprite = previousSprite;
                 transform.position = startPosition;
+
+                //Sets prior size
+                GetComponent<RectTransform>().sizeDelta = priorSize;
 
                 //Set to original parent
                 transform.SetParent(priorParent);
