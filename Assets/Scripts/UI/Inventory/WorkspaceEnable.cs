@@ -7,16 +7,20 @@ using UnityEngine.UI;
 [RequireComponent(typeof(BoxCollider2D))]
 public class WorkspaceEnable : MonoBehaviour
 {
-    public bool workspaceUp = false;
-    private BoxCollider2D boxCollider;
-    private Image image;
+    #region iTween
     //time in seconds
     [SerializeField] private float time = 1f;
     [SerializeField] private iTween.EaseType easeType;
     [SerializeField] private Vector3 destination;
     [SerializeField] private Vector3 startPosition;
+    #endregion
+
+    public bool workspaceUp = false;
+    private BoxCollider2D boxCollider;
+    private Image image;
     [SerializeField] private string lineName = "Line";
     private Draw draw;
+    private readonly string buttonTag = "Button";
 
     // Start is called before the first frame update
     void Awake()
@@ -89,6 +93,12 @@ public class WorkspaceEnable : MonoBehaviour
     //called at the end of TweenDown
     private void Disable()
     {
+        //Disables any image objects in the workspace (Not lines or buttons)
+        foreach (Transform child in transform)
+        {
+            if (!child.CompareTag(buttonTag) && child.name != lineName)
+                child.gameObject.SetActive(false);
+        }
         //Disables the workspace collider and image
         image.enabled = false;
 

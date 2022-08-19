@@ -6,7 +6,8 @@ public class Inventory : MonoBehaviour
 {
     //gameObject will be the slot, itemObject will be the item
 
-    [SerializeField]private readonly int numOfSlots= 6;
+    //If addding more slots increase the number here
+    private readonly int numOfSlots= 6;
     public GameObject[] inventoryArr;
 
 

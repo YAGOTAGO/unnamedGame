@@ -4,11 +4,12 @@ using UnityEngine;
 
 [RequireComponent(typeof(ItemPickup))]
 public class Item : MonoBehaviour
-{ 
-    public Sprite icon;
-    public Sprite fullItem;
-    public int widthOfFull;
-    public int heightOfFull;
+{
+    //Holds all information relevant to an item
+    [SerializeField]private Sprite icon;
+    [SerializeField] private Sprite fullItem;
+    [SerializeField] private int widthOfFull;
+    [SerializeField] private int heightOfFull;
 
 
     public int GetWidth()

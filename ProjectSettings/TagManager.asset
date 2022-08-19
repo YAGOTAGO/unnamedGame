@@ -7,6 +7,7 @@ TagManager:
   - Slot
   - Item
   - Workspace
+  - Button
   layers:
   - Default
   - TransparentFX

@@ -6,15 +6,16 @@ using static iTween;
 public class InventoryEnable : MonoBehaviour
 {
 
-    private bool inventoryUp = false;
-    private WorkspaceEnable workspace;
-
     #region Itween
     [SerializeField] private float time = .6f;
     [SerializeField] private iTween.EaseType easeType;
     [SerializeField] private Vector3 destination;
     [SerializeField] private Vector3 startPosition;
     #endregion
+
+    private bool inventoryUp = false;
+    private WorkspaceEnable workspace;
+
 
     private void Awake()
     {

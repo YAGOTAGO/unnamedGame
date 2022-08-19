@@ -5,7 +5,6 @@ using Cursor = UnityEngine.Cursor;
 
 [RequireComponent(typeof(DragAndDrop))]
 [RequireComponent(typeof(iTweenPath))]
-
 public class ItemPickup : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
 
@@ -16,15 +15,24 @@ public class ItemPickup : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private Vector2 hotSpot = Vector2.zero;
     #endregion
 
-    [SerializeField] private bool playerDetected = false;
-    private readonly KeyCode interactKey = KeyCode.Mouse0;
-    private readonly string playerTag = "Player";
-    private Inventory inventory;
-    private bool mouseOver = false;
-    private readonly string inventoryName = "Inventory";
+    #region iTween
     [SerializeField] private string mapPath;
     [SerializeField] private float pathTime;
     [SerializeField] private iTween.EaseType easeType;
+    #endregion
+
+    #region ReadOnly
+    private readonly KeyCode interactKey = KeyCode.Mouse0;
+    private readonly string playerTag = "Player";
+    private readonly string inventoryName = "Inventory";
+    #endregion
+
+    #region Private
+    [SerializeField] private bool playerDetected = false;
+    private Inventory inventory;
+    private bool mouseOver = false;
+    #endregion
+
     private void Awake()
     {
         inventory = GameObject.Find(inventoryName).GetComponent<Inventory>();

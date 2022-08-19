@@ -35,12 +35,14 @@ public class Draw : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     private LineRenderer currentLineRenderer;
     private EdgeCollider2D currentLineEdgeCollider;
     private WorkspaceEnable workspace;
-    private bool erasing = false;
     private Camera mainCamera;
     private bool pointerIsInsideWorkspace = false;
+    private readonly string lineName = "Line";
     #endregion
+
+    //Public because needed for references
     public bool drawing = false;
-   
+    public bool erasing = false;
 
     private void Awake()
     {
@@ -78,6 +80,7 @@ public class Draw : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     private void OnDisable()
     {
+        erasing = false;
         drawing = false;
         SetCursorToDefault();
     }
@@ -143,7 +146,7 @@ public class Draw : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         //line
         currentLine = new List<Vector2>();
         GameObject currentLineObject = new GameObject();
-        currentLineObject.name = "Line";
+        currentLineObject.name = lineName;
         currentLineObject.transform.SetParent(transform);
         currentLineRenderer = currentLineObject.AddComponent<LineRenderer>();
         currentLineEdgeCollider = currentLineObject.AddComponent<EdgeCollider2D>();
@@ -160,7 +163,7 @@ public class Draw : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         currentLineRenderer.useWorldSpace = false;
 
         //this is where we define layer of lines
-        currentLineObject.layer = LayerMask.NameToLayer("Line");
+        currentLineObject.layer = LayerMask.NameToLayer(lineName);
 
 
     }
@@ -222,7 +225,11 @@ public class Draw : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         if(transform.childCount > 0)
         {
             foreach (Transform child in transform)
-                GameObject.Destroy(child.gameObject);
+            {
+                if(child.name == lineName)
+                    GameObject.Destroy(child.gameObject);
+            }
+                
             
         }
        

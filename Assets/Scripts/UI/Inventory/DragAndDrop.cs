@@ -38,12 +38,14 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
     #endregion
 
     #region iTween
-    private readonly float speed = 10;
+    private readonly float time = .85f;
     private readonly iTween.EaseType easeType = iTween.EaseType.easeOutQuint;
     #endregion
 
     //Range of circle2D collider
     [SerializeField] private float range = 26;
+
+    //rectTransform needed to change size and position on screen
     private RectTransform rectTransform;
     private CanvasGroup canvasGroup;
 
@@ -63,14 +65,13 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
         itemImage = GetComponent<Image>();
         workspaceTransform = GameObject.FindGameObjectWithTag(workspaceTag).transform;
         draw = GameObject.FindGameObjectWithTag(workspaceTag).GetComponent<Draw>();
-
         //disables the scrip until the item is picked up
         this.enabled = false;
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (draw.drawing == true)
+        if (draw.drawing || draw.erasing)
             return;
 
         //Hold previous parent
@@ -104,7 +105,7 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (draw.drawing == true)
+        if (draw.drawing || draw.erasing)
             return;
 
         Cursor.SetCursor(grabCursor, Vector2.zero, CursorMode.Auto);
@@ -114,7 +115,7 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (draw.drawing == true)
+        if (draw.drawing || draw.erasing)
             return;
 
         //Sets default cursor
@@ -169,7 +170,7 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
                 {
 
                     //move hit game obect to our game objects position
-                    iTween.MoveTo(hit.gameObject.transform.GetChild(0).gameObject, iTween.Hash("position", priorParent.position, "speed", speed, "easetype", easeType));
+                    iTween.MoveTo(hit.gameObject.transform.GetChild(0).gameObject, iTween.Hash("position", priorParent.position, "time", time, "easetype", easeType));
                     //Change parent
                     hit.gameObject.transform.GetChild(0).SetParent(priorParent);
 
