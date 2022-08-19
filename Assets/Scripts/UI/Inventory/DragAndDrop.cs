@@ -37,9 +37,9 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
     [SerializeField] private Canvas canvas;
     private Vector2 startPosition;
     private Transform workspaceTransform;
-    
+    private Sprite previousSprite;
     private bool inSlot = false;
-
+    private Transform priorParent;
     
 
     private void Awake()
@@ -56,6 +56,13 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+
+        //Hold previous parent
+        priorParent = GetComponentInParent<Transform>();
+        
+        //Hold preious sprite
+        previousSprite = GetComponent<Image>().sprite;
+
         //set image to icon
         itemImage.sprite = item.GetIcon();
 
@@ -135,9 +142,12 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
                 }
             }
 
-            
+                //If dragged to non acceptable region set sprite and position to the prior
+                itemImage.sprite = previousSprite;
                 transform.position = startPosition;
-            
+
+                //Set to original parent
+                transform.SetParent(priorParent);
         }
        
 

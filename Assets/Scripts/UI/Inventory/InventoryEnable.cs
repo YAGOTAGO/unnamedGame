@@ -1,61 +1,58 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static iTween;
 
 public class InventoryEnable : MonoBehaviour
 {
 
-    
-    [SerializeField]
-    private int speed = 150;
     private bool inventoryUp = false;
-    private bool buttonClicked= false;
-    [SerializeField] private int topBound;
-    [SerializeField] private int botBound;
+    private WorkspaceEnable workspace;
 
+    #region Itween
+    [SerializeField] private float time = .6f;
+    [SerializeField] private iTween.EaseType easeType;
+    [SerializeField] private Vector3 destination;
+    [SerializeField] private Vector3 startPosition;
+    #endregion
 
-    //NOTE: values of how high or low inventory goes are hard coded!!! this will give potential errors in future
-
-
-    private void Update()
+    private void Awake()
     {
-        if (buttonClicked)
-        {
-            if (!inventoryUp)
-            {
-                transform.Translate(speed * Time.deltaTime * Vector2.up);
+        //MAKE SURE there is a parent with the workspace enable script
+        workspace = gameObject.GetComponentInChildren<WorkspaceEnable>();
 
-                //yBound is hard coded
-                if (transform.localPosition.y > topBound)
-                {
-                    
-                    inventoryUp = true;
-                    buttonClicked = false;
-                }
-
-            }
-            else
-            {
-                transform.Translate(speed * Time.deltaTime * Vector2.down);
-
-                //xBound is hard coded
-                if (transform.localPosition.y < botBound)
-                {
-                    buttonClicked = false;
-                    inventoryUp = false;
-                }
-
-            }
-        }
-        
-       
     }
-
 
     public void SlideUp()
     {
-        buttonClicked = true;
-      
+        if(inventoryUp && workspace)
+        {
+            workspace.TweenDown();
+            TweenDown();
+            return;
+
+        }
+
+        if (!inventoryUp)
+        {
+            MoveTo(gameObject, Hash("position", destination, "time", time, "easetype", easeType, "islocal", true));
+            inventoryUp = true;
+            return;
+        }
+        if(inventoryUp)
+        {
+            TweenDown();
+        }
+        
+
+
+    }
+
+    private void TweenDown()
+    {
+
+        MoveTo(gameObject, Hash("position", startPosition, "time", time, "easetype", easeType, "islocal", true));
+        inventoryUp = false;
     }
 
 
