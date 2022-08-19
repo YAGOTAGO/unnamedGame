@@ -7,7 +7,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(BoxCollider2D))]
 public class WorkspaceEnable : MonoBehaviour
 {
-    private bool workspaceUp = false;
+    public bool workspaceUp = false;
     private BoxCollider2D boxCollider;
     private Image image;
     //time in seconds
@@ -15,8 +15,8 @@ public class WorkspaceEnable : MonoBehaviour
     [SerializeField] private iTween.EaseType easeType;
     [SerializeField] private Vector3 destination;
     [SerializeField] private Vector3 startPosition;
-    
-
+    [SerializeField] private string lineName = "Line";
+    private Draw draw;
 
     // Start is called before the first frame update
     void Awake()
@@ -25,7 +25,8 @@ public class WorkspaceEnable : MonoBehaviour
         image = gameObject.GetComponent<Image>();
         image.enabled = false;
         boxCollider.enabled = false;
-        
+        draw = GetComponent<Draw>();
+
     }
 
     // Update is called once per frame
@@ -36,37 +37,60 @@ public class WorkspaceEnable : MonoBehaviour
         
         if (!workspaceUp)
         {
-
             TweenUp();
-            boxCollider.enabled = true;
-            image.enabled = true;
-            workspaceUp = true;
+            Enable();
             return;
-
         }
 
         if (workspaceUp)
         {
 
             TweenDown();
-            workspaceUp = false;
-
+            
         }
-
-        
+ 
     }
 
     public void TweenDown()
     {
+
+        //disables any drawing ability
+        draw.enabled = false;
+
+        //updates workspace state
+        workspaceUp = false;
+
+
+        //Disables the lines 
+        foreach (Transform child in transform)
+        {
+            if (child.name == lineName)
+                child.gameObject.SetActive(false);
+        }
+
+        boxCollider.enabled = false;
         iTween.MoveTo(gameObject, iTween.Hash("position", startPosition, "time", time, "easetype", easeType, "oncomplete", "Disable", "islocal", true));
     }
     public void TweenUp()
     {
         iTween.MoveTo(gameObject, iTween.Hash("position", destination, "time", time, "easetype", easeType, "islocal", true));
     }
+
+    private void Enable()
+    {
+        boxCollider.enabled = true;
+        image.enabled = true;
+        workspaceUp = true;
+        foreach (Transform child in transform)
+                child.gameObject.SetActive(true);
+        
+    }
+
+    //called at the end of TweenDown
     private void Disable()
     {
-        boxCollider.enabled = false;
+        //Disables the workspace collider and image
         image.enabled = false;
+
     }
 }

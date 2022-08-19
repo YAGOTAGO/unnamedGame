@@ -23,6 +23,7 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
     private Item item;
     private Image itemImage;
 
+
     [SerializeField]
     private float iconWidth = 93;
     [SerializeField]
@@ -36,8 +37,13 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
     private Vector2 startPosition;
     #endregion
 
+    #region iTween
+    private readonly float speed = 10;
+    private readonly iTween.EaseType easeType = iTween.EaseType.easeOutQuint;
+    #endregion
+
     //Range of circle2D collider
-    [SerializeField] private int range = 26;
+    [SerializeField] private float range = 26;
     private RectTransform rectTransform;
     private CanvasGroup canvasGroup;
 
@@ -45,6 +51,8 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
     [SerializeField] private Canvas canvas;
     private Transform workspaceTransform;
     
+    //reference to draw script
+    private Draw draw;
    
 
     private void Awake()
@@ -54,6 +62,7 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
         item = GetComponent<Item>();
         itemImage = GetComponent<Image>();
         workspaceTransform = GameObject.FindGameObjectWithTag(workspaceTag).transform;
+        draw = GameObject.FindGameObjectWithTag(workspaceTag).GetComponent<Draw>();
 
         //disables the scrip until the item is picked up
         this.enabled = false;
@@ -61,6 +70,8 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (draw.drawing == true)
+            return;
 
         //Hold previous parent
         priorParent = transform.parent;
@@ -93,6 +104,9 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (draw.drawing == true)
+            return;
+
         Cursor.SetCursor(grabCursor, Vector2.zero, CursorMode.Auto);
         rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
         
@@ -100,6 +114,9 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (draw.drawing == true)
+            return;
+
         //Sets default cursor
         SetCursorToDefault();
 
@@ -146,7 +163,29 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
                 
                     return;
                 }
+
+                //swap item function
+                if(hit.gameObject.CompareTag(slotTag) && hit.gameObject.transform.childCount == 1 && !priorParent.gameObject.CompareTag(workspaceTag))
+                {
+
+                    //move hit game obect to our game objects position
+                    iTween.MoveTo(hit.gameObject.transform.GetChild(0).gameObject, iTween.Hash("position", priorParent.position, "speed", speed, "easetype", easeType));
+                    //Change parent
+                    hit.gameObject.transform.GetChild(0).SetParent(priorParent);
+
+
+                    //Change our gameObjects parent to the hit one
+                    transform.SetParent(hit.gameObject.transform);
+
+                    //Move our game object to the hits position
+                    transform.position = hit.transform.position;
+
+                    return;
+                }
             }
+
+
+                //BELOW is the else, if none of the cases above then this will occur
 
                 //If dragged to non acceptable region set sprite and position to the prior
                 itemImage.sprite = previousSprite;

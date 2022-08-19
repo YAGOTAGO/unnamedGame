@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class Draw : MonoBehaviour
+public class Draw : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     #region LineSettings
     //Material is required to change line color
@@ -33,54 +34,67 @@ public class Draw : MonoBehaviour
     private List<Vector2> currentLine;
     private LineRenderer currentLineRenderer;
     private EdgeCollider2D currentLineEdgeCollider;
-
-    private bool drawing = false;
+    private WorkspaceEnable workspace;
     private bool erasing = false;
-
     private Camera mainCamera;
-
+    private bool pointerIsInsideWorkspace = false;
     #endregion
+    public bool drawing = false;
+   
 
-    private bool canDraw = false;
+    private void Awake()
+    {
+        workspace = GetComponent<WorkspaceEnable>();
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         mainCamera = Camera.main;
+        this.enabled = false;
+        
     }
 
     public void activateDraw()
     {
-        if (canDraw)
+        if (!this.enabled && !workspace.workspaceUp)
         {
-            SetCursorToDefault();
-            drawing = false;
-            canDraw = false;
-            
+            Debug.Log("Workspace must be up");
             return;
         }
-        if(!canDraw)
+
+        if (!this.enabled && workspace.workspaceUp)
         {
-            canDraw = true;
+            this.enabled = true;
             return;
         }
+       
+
+           this.enabled = false;
+        
+       
+    }
+
+
+    private void OnDisable()
+    {
+        drawing = false;
+        SetCursorToDefault();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!canDraw)
-            return;
-        
-            if (Input.GetMouseButtonDown(0))
+           
+            if (Input.GetMouseButtonDown(0) && pointerIsInsideWorkspace)
             {
                 if (!erasing)
                 {
-                    Cursor.SetCursor(cursorDraw, hotSpot, cursorMode);
-                    StartCoroutine(Drawing());
+                SetCursorToDraw();
+                StartCoroutine(Drawing());
+                return;
                 }
 
-                Debug.Log("left click");
             }
             if (Input.GetMouseButtonUp(0))
             {
@@ -89,10 +103,10 @@ public class Draw : MonoBehaviour
                 SetCursorToDefault();
                 }
                 drawing = false;
-                Debug.Log("left click up");
+                
             }
 
-            if (Input.GetMouseButtonDown(1))
+            if (Input.GetMouseButtonDown(1) && pointerIsInsideWorkspace)
             {
                 if (!drawing)
                 {
@@ -109,9 +123,6 @@ public class Draw : MonoBehaviour
             }
                 erasing = false;
             }
-        
-        
-
 
     }
 
@@ -146,6 +157,7 @@ public class Draw : MonoBehaviour
         currentLineRenderer.startColor = lineColor;
         currentLineRenderer.endColor = lineColor;
         currentLineEdgeCollider.edgeRadius = .1f;
+        currentLineRenderer.useWorldSpace = false;
 
         //this is where we define layer of lines
         currentLineObject.layer = LayerMask.NameToLayer("Line");
@@ -219,5 +231,21 @@ public class Draw : MonoBehaviour
     private void SetCursorToDefault()
     {
         Cursor.SetCursor(cursorDefault, Vector2.zero, CursorMode.Auto);
+    }
+
+    private void SetCursorToDraw()
+    {
+        Cursor.SetCursor(cursorDraw, hotSpot, cursorMode);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+       pointerIsInsideWorkspace = true;
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        this.enabled = false;
+        pointerIsInsideWorkspace= false;
     }
 }
