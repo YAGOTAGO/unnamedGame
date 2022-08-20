@@ -2,18 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(BoxCollider2D))]
+[RequireComponent(typeof(Animator))]
 public class Player : MonoBehaviour
 {
-    [SerializeField]
-    private float MoveSpeed = 5;
-    private BoxCollider2D BoxCollider;
+    [SerializeField] private float MoveSpeed = 10;
+    private BoxCollider2D boxCollider;
     private Animator Animator;
-
+    private RaycastHit2D castResult;
+    [SerializeField] LayerMask blockLayerMask;
+    
 
     private void Start()
     {
-        BoxCollider = GetComponent<BoxCollider2D>();
+        boxCollider = GetComponent<BoxCollider2D>();
         Animator = GetComponent<Animator>();
+
+        //our character should persist between scenes
+        DontDestroyOnLoad(gameObject);
     }
 
     private void FixedUpdate()
@@ -43,9 +49,9 @@ public class Player : MonoBehaviour
         }
 
         //Collision check
-        RaycastHit2D castResult;
+        
         // Check if we are hitting something in X-Axis
-        castResult = Physics2D.BoxCast(transform.position, BoxCollider.size, 0, new Vector2(moveX, 0), Mathf.Abs(moveX * Time.fixedDeltaTime * MoveSpeed), LayerMask.GetMask("BlockMove"));
+        castResult = Physics2D.BoxCast(transform.position, boxCollider.size, 0, new Vector2(moveX, 0), Mathf.Abs(moveX * Time.fixedDeltaTime * MoveSpeed), blockLayerMask);
         
         if (castResult.collider)
         {
@@ -54,7 +60,7 @@ public class Player : MonoBehaviour
         }
 
         // Check if we are hitting something in Y-AxisS
-        castResult = Physics2D.BoxCast(transform.position, BoxCollider.size, 0, new Vector2(0, moveY), Mathf.Abs(moveY * Time.fixedDeltaTime * MoveSpeed), LayerMask.GetMask("BlockMove"));
+        castResult = Physics2D.BoxCast(transform.position, boxCollider.size, 0, new Vector2(0, moveY), Mathf.Abs(moveY * Time.fixedDeltaTime * MoveSpeed), blockLayerMask);
 
         if (castResult.collider)
         {
@@ -65,9 +71,10 @@ public class Player : MonoBehaviour
        //makes animation happen
         bool isRunning = moveDelta.magnitude > 0;
         Animator.SetBool("isRunning", isRunning);
-        transform.Translate(moveDelta * Time.fixedDeltaTime * MoveSpeed);
+        transform.Translate(MoveSpeed * Time.fixedDeltaTime * moveDelta);
 
     }
-    
+
+  
 }
 
