@@ -460,7 +460,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c846663259892574a951e01084c13994, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lineMaterial: {fileID: 2100000, guid: c3e72802f6a65fa43b8a71e110f36c0e, type: 2}
+  lineMaterial: {fileID: 2100000, guid: 6ad30310187ad784eb0be38f1b71728f, type: 2}
   lineSeperationDistance: 0.2
   lineWidth: 0.1
   lineColor: {r: 0, g: 0, b: 0, a: 1}
