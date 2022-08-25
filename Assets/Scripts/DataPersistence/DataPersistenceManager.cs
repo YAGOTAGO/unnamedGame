@@ -50,18 +50,7 @@ public class DataPersistenceManager : MonoBehaviour
         InitializeSelectedProfileId();
     }
 
-
-    //This returns to main menu on ESC being clicked MAY WANT TO CHANGE THIS IN FUTURE
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            DataPersistenceManager.instance.SaveGame();
-
-            SceneManager.LoadSceneAsync("MainMenu");
-        }
-    }
-
+    
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;

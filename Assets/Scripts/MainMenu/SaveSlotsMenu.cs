@@ -38,7 +38,6 @@ public class SaveSlotsMenu : Menu
         // case - new game, but the save slot has data
         else if (saveSlot.hasData)
         {
-            
             confirmationPopupMenu.ActivateMenu(
                 "Starting a New Game with this slot will override the currently saved data. Are you sure?",
                 // function to execute if we select 'yes'
@@ -52,7 +51,6 @@ public class SaveSlotsMenu : Menu
                     this.ActivateMenu(isLoadingGame);
                 }
             );
-            
         }
         // case - new game, and the save slot has no data
         else
@@ -67,6 +65,7 @@ public class SaveSlotsMenu : Menu
     {
         // save the game anytime before loading a new scene
         DataPersistenceManager.instance.SaveGame();
+
         // load the scene
         SceneManager.LoadSceneAsync("Train");
     }
@@ -74,7 +73,7 @@ public class SaveSlotsMenu : Menu
     public void OnClearClicked(SaveSlot saveSlot)
     {
         DisableMenuButtons();
-        
+
         confirmationPopupMenu.ActivateMenu(
             "Are you sure you want to delete this saved data?",
             // function to execute if we select 'yes'
@@ -87,7 +86,6 @@ public class SaveSlotsMenu : Menu
                 ActivateMenu(isLoadingGame);
             }
         );
-        
     }
 
     public void OnBackClicked()

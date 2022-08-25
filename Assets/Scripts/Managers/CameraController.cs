@@ -5,8 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class CameraController : MonoBehaviour
 {
-    [SerializeField]
-    private Transform Player;
+    
+    private Player player;
     [SerializeField]
     private float Xbound = 0.1f;
     [SerializeField]
@@ -18,6 +18,7 @@ public class CameraController : MonoBehaviour
     {
         Scene currentScene = SceneManager.GetActiveScene();
         string sceneName = currentScene.name;
+        player = Player.Instance;
 
         if (sceneName == "Train")
         {
@@ -38,14 +39,14 @@ public class CameraController : MonoBehaviour
         Vector2 moveDirection = Vector2.zero;
 
         //Calculate the offset of the player according to the bounds
-        float deltaX = Player.position.x - transform.position.x;
-        float deltaY = Player.position.y - transform.position.y;
+        float deltaX = player.playerPosition.x - transform.position.x;
+        float deltaY = player.playerPosition.y - transform.position.y;
 
         //X-Axis
         if (deltaX > Xbound || deltaX < -Xbound)
         {
             //The player is on the right side
-            if (Player.position.x > transform.position.x)
+            if (player.playerPosition.x > transform.position.x)
             {
                 moveDirection.x = deltaX - Xbound;
             }
@@ -60,7 +61,7 @@ public class CameraController : MonoBehaviour
         if (deltaY > Ybound || deltaY < -Ybound)
         {
             //The player is on the upper side
-            if (Player.position.y > transform.position.y)
+            if (player.playerPosition.y > transform.position.y)
             {
                 moveDirection.y = deltaY - Ybound;
             }

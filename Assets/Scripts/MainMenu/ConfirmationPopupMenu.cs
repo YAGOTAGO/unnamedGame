@@ -34,7 +34,7 @@ public class ConfirmationPopupMenu : Menu
             cancelAction();
         });
     }
-    
+
     private void DeactivateMenu()
     {
         this.gameObject.SetActive(false);

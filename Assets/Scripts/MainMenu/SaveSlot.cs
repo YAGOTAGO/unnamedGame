@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-
+using System;
 public class SaveSlot : MonoBehaviour
 {
     [Header("Profile")]
@@ -45,7 +45,13 @@ public class SaveSlot : MonoBehaviour
             hasDataContent.SetActive(true);
             clearButton.gameObject.SetActive(true);
 
-            //TO DO: Add the changes in the has data text here
+            //Add what its gonna say here like so
+            /*
+            percentageCompleteText.text = data.GetPercentageComplete() + "% COMPLETE";
+            deathCountText.text = "DEATH COUNT: " + data.deathCount;
+            */
+
+            dateStartedText.text = "Last Played " + DateTime.Now.Date.ToString("d");
         }
     }
 

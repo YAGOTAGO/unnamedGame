@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -65,7 +64,6 @@ public class MainMenu : Menu
 
     public void DeactivateMenu()
     {
-        Debug.Log("deactivated main menu");
         this.gameObject.SetActive(false);
     }
 }
