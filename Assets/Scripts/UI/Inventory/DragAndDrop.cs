@@ -34,7 +34,7 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
     private Sprite previousSprite;
     private Transform priorParent;
     private Vector2 priorSize;
-    private Vector2 startPosition;
+    private Vector3 startPosition;
     #endregion
 
     #region iTween
@@ -94,7 +94,9 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
 
         //remember start position
         startPosition = transform.position;
-        
+
+
+
         //Canvas variables change so drag is posible
         canvasGroup.alpha = .6f;
         canvasGroup.blocksRaycasts = false;

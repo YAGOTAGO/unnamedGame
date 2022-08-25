@@ -4,7 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(Animator))]
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IDataPersistence
 {
     [SerializeField] private float MoveSpeed = 10;
     private BoxCollider2D boxCollider;
@@ -75,6 +75,14 @@ public class Player : MonoBehaviour
 
     }
 
-  
+    public void LoadData(GameData data)
+    {
+        this.transform.position = data.mainPlayerPosition;
+    }
+
+    public void SaveData(GameData data)
+    {
+        data.mainPlayerPosition = this.transform.position;
+    }
 }
 

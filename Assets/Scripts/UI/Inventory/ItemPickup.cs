@@ -33,6 +33,7 @@ public class ItemPickup : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private bool mouseOver = false;
     #endregion
 
+    
     private void Awake()
     {
         inventory = GameObject.Find(inventoryName).GetComponent<Inventory>();
