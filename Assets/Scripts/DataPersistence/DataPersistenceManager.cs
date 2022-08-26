@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.SceneManagement;
-
 public class DataPersistenceManager : MonoBehaviour
 {
     [Header("Debugging")]
@@ -26,6 +25,7 @@ public class DataPersistenceManager : MonoBehaviour
     private string selectedProfileId = "";
 
     private Coroutine autoSaveCoroutine;
+    
 
     public static DataPersistenceManager instance { get; private set; }
 
@@ -78,6 +78,9 @@ public class DataPersistenceManager : MonoBehaviour
     {
         // update the profile to use for saving and loading
         this.selectedProfileId = newProfileId;
+
+       
+
         // load the game, which will use that profile, updating our game data accordingly
         LoadGame();
     }

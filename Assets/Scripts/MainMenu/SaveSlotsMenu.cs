@@ -29,6 +29,7 @@ public class SaveSlotsMenu : Menu
         // disable all buttons
         DisableMenuButtons();
 
+
         // case - loading game
         if (isLoadingGame)
         {

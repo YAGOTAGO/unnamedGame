@@ -23,7 +23,6 @@ public class Draw : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     #region Cursor
     [SerializeField] private Texture2D cursorErase;
     [SerializeField] private Texture2D cursorDraw;
-    [SerializeField] private Texture2D cursorDefault;
     private CursorMode cursorMode = CursorMode.Auto;
      private Vector2 hotSpot = Vector2.zero;
     #endregion
@@ -161,6 +160,7 @@ public class Draw : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         currentLineRenderer.endColor = lineColor;
         currentLineEdgeCollider.edgeRadius = .1f;
         currentLineRenderer.useWorldSpace = false;
+        
 
         //this is where we define layer of lines
         currentLineObject.layer = LayerMask.NameToLayer(lineName);
@@ -237,7 +237,7 @@ public class Draw : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     private void SetCursorToDefault()
     {
-        Cursor.SetCursor(cursorDefault, Vector2.zero, CursorMode.Auto);
+        Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
     }
 
     private void SetCursorToDraw()

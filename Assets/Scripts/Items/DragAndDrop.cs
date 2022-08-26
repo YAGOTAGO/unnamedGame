@@ -5,13 +5,12 @@ using UnityEngine.UI;
 
 [RequireComponent(typeof(CanvasGroup))]
 [RequireComponent(typeof(RectTransform))]
-[RequireComponent(typeof(Item))]
+[RequireComponent(typeof(InventoryItem))]
 public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
 
     #region CursorSettings
     [SerializeField] private Texture2D grabCursor;
-    [SerializeField] private Texture2D defaultCursor;
     #endregion
 
     #region Tags
@@ -20,7 +19,7 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
     #endregion
 
     #region Item
-    private Item item;
+    private InventoryItem item;
     private Image itemImage;
 
 
@@ -61,12 +60,12 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
     {
         rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
-        item = GetComponent<Item>();
+        item = GetComponent<InventoryItem>();
         itemImage = GetComponent<Image>();
         workspaceTransform = GameObject.FindGameObjectWithTag(workspaceTag).transform;
         draw = GameObject.FindGameObjectWithTag(workspaceTag).GetComponent<Draw>();
-        //disables the scrip until the item is picked up
-        this.enabled = false;
+        
+ 
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -220,6 +219,6 @@ public class DragAndDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
   
     private void SetCursorToDefault()
     {
-        Cursor.SetCursor(defaultCursor, Vector2.zero, CursorMode.Auto);
+        Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
     }
 }
