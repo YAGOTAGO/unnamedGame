@@ -1,35 +1,61 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(Animator))]
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IDataPersistence
 {
     [SerializeField] private float MoveSpeed = 10;
     private BoxCollider2D boxCollider;
     private Animator Animator;
     private RaycastHit2D castResult;
     [SerializeField] LayerMask blockLayerMask;
-    
+    public Vector3 playerPosition;
+   public static Player Instance { get; private set; }
+
+    private void Awake()
+    {
+        
+        if(Instance != null)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+        Instance = this;
+
+        DontDestroyOnLoad(this.gameObject);
+
+        
+        
+    }
 
     private void Start()
     {
         boxCollider = GetComponent<BoxCollider2D>();
         Animator = GetComponent<Animator>();
-
-        //our character should persist between scenes
-        DontDestroyOnLoad(gameObject);
     }
-
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            DataPersistenceManager.instance.SaveGame();
+            Destroy(gameObject);
+            
+            SceneManager.LoadSceneAsync("MainMenu");
+        }
+    }
     private void FixedUpdate()
     {
+       
         Movement();
- 
+       
     }
 
     private void Movement()
     {
+        playerPosition = transform.position;
         //Get the input
         float moveX = Input.GetAxisRaw("Horizontal");
         float moveY = Input.GetAxisRaw("Vertical");
@@ -75,6 +101,14 @@ public class Player : MonoBehaviour
 
     }
 
-  
+    public void LoadData(GameData data)
+    {
+        this.transform.position = data.mainPlayerPosition;
+    }
+
+    public void SaveData(GameData data)
+    {
+        data.mainPlayerPosition = playerPosition;
+    }
 }
 
