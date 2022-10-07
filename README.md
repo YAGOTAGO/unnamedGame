@@ -8,6 +8,11 @@
 
 ### Jun 24, 2022
 ![](Prog2.png)
-*Added UI, inventory drag function
+*Added UI, inventory drag function*
+
+### Aug 18, 2022
+![](ezgif.com-gif-maker.gif)
+*Working inventory system, with drawing*
+
 
 
