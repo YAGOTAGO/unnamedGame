@@ -14,5 +14,9 @@
 ![](ezgif.com-gif-maker.gif)
 *Working inventory system, with drawing*
 
+### Aug 24, 2022
+![](SaveLoad.gif)
+*Working save and load system that writes to .json*
+
 
 
