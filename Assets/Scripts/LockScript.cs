@@ -1,4 +1,4 @@
-
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -28,6 +28,7 @@ public class LockScript : MonoBehaviour
         {
             Debug.Log("Code is correct, action would occur");
 
+            
             this.enabled = false;
         }
 
@@ -38,7 +39,8 @@ public class LockScript : MonoBehaviour
 
         
     }
-
+    
+   
 
     public void addDigit(string digit)
     {
