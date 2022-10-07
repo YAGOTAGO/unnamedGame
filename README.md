@@ -1,2 +1,4 @@
 # TicketMaster
-Puzzle Game being built in Unity
+
+## Work in progress screenshots
+![Added movement, animations, cursor, camera, dialogue](Prog1.png)
